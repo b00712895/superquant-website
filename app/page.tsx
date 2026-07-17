@@ -4,57 +4,68 @@ import { useEffect, useRef, useState } from "react";
 
 type Lang = "zh" | "en";
 type Bilingual = { zh: string; en: string };
+type NewsCategory = "company" | "media" | "research" | "announcement";
 
 const pick = (lang: Lang, value: Bilingual) => value[lang];
 
 const navItems: Array<{ label: Bilingual; href: string }> = [
+  { label: { zh: "首页", en: "Home" }, href: "#top" },
+  { label: { zh: "关于我们", en: "About" }, href: "#about" },
   { label: { zh: "产品与服务", en: "Products" }, href: "#products" },
   { label: { zh: "动态资讯", en: "News" }, href: "#news" },
-  { label: { zh: "信息披露", en: "Disclosure" }, href: "#disclosure" },
-  { label: { zh: "关于我们", en: "About" }, href: "#about" },
   { label: { zh: "加入我们", en: "Careers" }, href: "#careers" },
+  { label: { zh: "联系我们", en: "Contact" }, href: "#contact" },
+];
+
+const newsFilters: Array<{ key: "all" | NewsCategory | "disclosure"; label: Bilingual }> = [
+  { key: "all", label: { zh: "全部", en: "All" } },
+  { key: "company", label: { zh: "公司动态", en: "Company" } },
+  { key: "media", label: { zh: "媒体报道", en: "Media" } },
+  { key: "research", label: { zh: "研究观点", en: "Research" } },
+  { key: "announcement", label: { zh: "公司公告", en: "Announcements" } },
+  { key: "disclosure", label: { zh: "信息披露", en: "Disclosure" } },
 ];
 
 const methodology = [
   {
     index: "01",
-    enLabel: "SCIENCE",
-    title: { zh: "从规律出发", en: "Start with first principles" },
+    enLabel: "FINANCIAL MODELING",
+    title: { zh: "金融建模", en: "Financial Modeling" },
     description: {
-      zh: "以数理建模、统计工具与因果关系研究为底座，寻找可解释、可验证的市场规律。",
-      en: "We use mathematical modeling, statistics and causal research to find explainable, testable market patterns.",
-    },
-    tone: "cyan",
-  },
-  {
-    index: "02",
-    enLabel: "TECHNOLOGY",
-    title: { zh: "让研究规模化", en: "Scale rigorous research" },
-    description: {
-      zh: "机器学习、模型与因子协同工作，将研究假设转化为持续迭代的系统能力。",
-      en: "Machine learning, models and factors turn research hypotheses into a continuously evolving system.",
-    },
-    tone: "violet",
-  },
-  {
-    index: "03",
-    enLabel: "FINANCE",
-    title: { zh: "让策略可投资", en: "Make research investable" },
-    description: {
-      zh: "从组合构建、风险规划到交易执行，把研究优势转化为稳定、可复现的投资过程。",
-      en: "Portfolio construction, risk planning and execution convert research into a repeatable investment process.",
+      zh: "以金融逻辑定义问题，把市场机制、资产定价与风险收益关系转化为可验证的研究假设。",
+      en: "Financial logic frames the problem, translating market mechanisms, asset pricing and risk-return relationships into testable hypotheses.",
     },
     tone: "blue",
   },
   {
-    index: "04",
-    enLabel: "ART",
-    title: { zh: "理解不确定性", en: "Understand uncertainty" },
+    index: "02",
+    enLabel: "ARTFUL INVESTMENT",
+    title: { zh: "投资艺术", en: "Artful Investment" },
     description: {
-      zh: "对价值、优雅与人性的长期思考，让模型保持对未知的敬畏与适应力。",
-      en: "Long-term thinking about value, elegance and human behavior keeps our models adaptive and humble.",
+      zh: "理解市场参与者、制度与不确定性，在模型之外保留对价值、判断与适应性的长期思考。",
+      en: "We study participants, institutions and uncertainty, preserving judgment, value and adaptability beyond the model.",
     },
     tone: "lime",
+  },
+  {
+    index: "03",
+    enLabel: "SCIENTIFIC RESEARCH",
+    title: { zh: "科学研究", en: "Scientific Research" },
+    description: {
+      zh: "以数理建模、统计工具与因果研究寻找可解释、可证伪、可复现的市场规律。",
+      en: "Mathematical modeling, statistics and causal research seek explainable, falsifiable and reproducible market patterns.",
+    },
+    tone: "cyan",
+  },
+  {
+    index: "04",
+    enLabel: "TECHNOLOGY BREAKTHROUGHS",
+    title: { zh: "技术突破", en: "Technology Breakthroughs" },
+    description: {
+      zh: "机器学习、模型训练与工程系统协同，把研究假设转化为可规模化、可持续迭代的投资能力。",
+      en: "Machine learning, model training and engineering turn research hypotheses into scalable, continuously improving investment capability.",
+    },
+    tone: "violet",
   },
 ];
 
@@ -90,74 +101,137 @@ const productItems = [
 
 const engineSteps = [
   {
-    code: "FACTOR GRAPH",
-    title: { zh: "因子开发", en: "Factor Research" },
+    code: "A-SHARE DATA",
+    title: { zh: "A 股大数据", en: "A-share Data" },
     description: {
-      zh: "从金融逻辑构建底层因子，以同行审议与多维检验持续筛选有效信号。",
-      en: "Financial logic informs factor design, while peer review and multi-dimensional tests validate signals.",
+      zh: "从金融逻辑出发，以数据挖掘持续构建因子图谱和知识体系。",
+      en: "Financial logic and data mining continuously expand our factor graph and knowledge system.",
     },
-    meta: "Logic first",
+    bullets: [
+      { zh: "研究与挖掘数万个因子，涵盖技术面、基本面、舆情等多维信息", en: "Tens of thousands of factors across technical, fundamental and sentiment dimensions" },
+      { zh: "深圳、北京、上海、香港多地部署与灾备，保障数据安全和系统稳定", en: "Multi-site deployment and resilience across Shenzhen, Beijing, Shanghai and Hong Kong" },
+    ],
+    meta: "DATA FOUNDATION",
   },
   {
-    code: "AUTOQUANT",
-    title: { zh: "模型实验", en: "Model Experiments" },
+    code: "MODEL TRAINING",
+    title: { zh: "模型训练系统", en: "Model Training" },
     description: {
-      zh: "自动化搜索模型结构与参数，批量训练、回测、比较，提升研究迭代效率。",
-      en: "Automated model and parameter search enables large-scale training, backtesting and comparison.",
+      zh: "自研深度学习与机器学习算法，让研究假设得到高效验证。",
+      en: "Proprietary deep-learning and machine-learning algorithms efficiently test research hypotheses.",
     },
-    meta: "Research at scale",
+    bullets: [
+      { zh: "批量模型训练、回测与比较，提升研究迭代效率", en: "Large-scale model training, backtesting and comparison" },
+      { zh: "多模型与多算法融合，提升策略稳健性", en: "Multi-model and multi-algorithm fusion for greater robustness" },
+    ],
+    meta: "RESEARCH AT SCALE",
   },
   {
-    code: "RISK PLANNER",
-    title: { zh: "组合与风控", en: "Portfolio & Risk" },
+    code: "AUTOMATED EXECUTION",
+    title: { zh: "自动化交易系统", en: "Automated Execution" },
     description: {
-      zh: "组合多模型信号，监控风格暴露与换仓成本，在目标与约束之间动态规划。",
-      en: "Multi-model signals are balanced against style exposures, turnover costs and portfolio constraints.",
+      zh: "自研交易算法与实时监控协同，降低交易成本并提升策略表达效率。",
+      en: "Proprietary execution algorithms and real-time monitoring reduce costs and improve strategy expression.",
     },
-    meta: "Robust by design",
+    bullets: [
+      { zh: "高并发、多线程交易系统，快速响应市场变化", en: "High-concurrency, multi-threaded systems respond quickly to market changes" },
+      { zh: "实时监控持仓、资金与账户状态", en: "Real-time monitoring of positions, capital and accounts" },
+    ],
+    meta: "PRECISION MATTERS",
   },
   {
-    code: "EXECUTION",
-    title: { zh: "交易执行", en: "Execution" },
+    code: "RISK CONTROL",
+    title: { zh: "风控系统", en: "Risk Control" },
     description: {
-      zh: "自研交易算法与实时监控系统协同，让每一次策略表达更高效、更准确。",
-      en: "Proprietary algorithms and real-time monitoring make every strategy expression more efficient and precise.",
+      zh: "将程序化交易、分散投资与风险规划嵌入投资全过程。",
+      en: "Programmatic trading, diversification and risk planning are embedded throughout the investment process.",
     },
-    meta: "Precision matters",
+    bullets: [
+      { zh: "严格的风险因子规划与组合约束", en: "Rigorous risk-factor planning and portfolio constraints" },
+      { zh: "以系统纪律降低主观偏差，守住投资边界", en: "Systematic discipline reduces subjective bias and protects investment boundaries" },
+    ],
+    meta: "ROBUST BY DESIGN",
   },
 ];
 
 const milestones = [
   {
-    year: "2019",
-    title: { zh: "超量子基金成立", en: "Super Quantum founded" },
-    description: { zh: "深圳总部成立，系统化量化研究正式启航。", en: "Shenzhen headquarters established and systematic quant research launched." },
+    year: "1994",
+    title: { zh: "研究构想萌芽", en: "The research idea begins" },
+    description: { zh: "张晓泉教授开始构想如何将数理统计模型与机器学习应用于金融市场交易。", en: "Professor Michael Zhang began exploring how statistical models and machine learning could be applied to financial markets." },
+  },
+  {
+    year: "2015",
+    title: { zh: "组建创始团队", en: "Founding team formed" },
+    description: { zh: "构建统计研究工具，开发面向 A 股市场的量化交易策略。", en: "The founding team built statistical research tools and developed quantitative strategies for China A-shares." },
   },
   {
     year: "2020",
     title: { zh: "完成管理人登记", en: "AMAC registration" },
-    description: { zh: "登记为私募证券投资基金管理人。", en: "Registered with AMAC as a private securities fund manager." },
-  },
-  {
-    year: "2021",
-    title: { zh: "北京研究中心", en: "Beijing research hub" },
-    description: { zh: "进一步扩展基础研究与跨学科人才布局。", en: "Expanded fundamental research and interdisciplinary talent coverage." },
+    description: { zh: "登记为私募证券投资基金管理人，同年发行首只指数增强型量化基金。", en: "Registered with AMAC as a private securities fund manager and launched its first index-enhancement fund." },
   },
   {
     year: "2022",
-    title: { zh: "香港业务中心", en: "Hong Kong presence" },
-    description: { zh: "香港主体取得资产管理第 9 类牌照。", en: "Hong Kong entity received the Type 9 asset management license." },
+    title: { zh: "投研系统完善", en: "Research system expansion" },
+    description: { zh: "设立北京研究中心及香港业务中心，取得香港资产管理第 9 类牌照。", en: "Established Beijing and Hong Kong hubs and received the Hong Kong Type 9 asset management license." },
+  },
+  {
+    year: "2023",
+    title: { zh: "拓展机构业务", en: "Institutional business expansion" },
+    description: { zh: "正式对外募资，取得“3+3”投顾资质。", en: "Expanded external fundraising and obtained the 3+3 investment advisory qualification." },
   },
   {
     year: "2025",
-    title: { zh: "行业长期认可", en: "Long-term recognition" },
-    description: { zh: "荣获三年期金牛私募管理公司奖。", en: "Received the Three-year Golden Bull Private Fund Manager award." },
+    title: { zh: "规模与认可", en: "Scale and recognition" },
+    description: { zh: "荣获三年期股票策略私募金牛奖，最新管理规模 140 亿+。", en: "Received the three-year equity strategy Golden Bull award; latest AUM exceeds RMB 14 billion." },
+  },
+];
+
+const founders = [
+  {
+    name: { zh: "张晓泉教授", en: "Professor Michael Zhang, Ph.D." },
+    role: { zh: "创始人", en: "Founder" },
+    image: "/about/zhang-xiaoquan.png",
+    highlights: [
+      { zh: "清华大学经管学院深圳研究院常务副院长、讲席教授，香港深圳联合金融研究中心主任", en: "Executive Associate Dean and Chair Professor at Tsinghua SEM Shenzhen Research Institute; Director of the Hong Kong-Shenzhen Finance Research Centre" },
+      { zh: "麻省理工学院（MIT）博士，清华大学管理学硕士、计算机科学学士、英语文学学士", en: "PhD from MIT; MSc in Management, BE in Computer Science and BA in English from Tsinghua University" },
+      { zh: "多年量化研究、量化投资及华尔街量化对冲基金从业经验，芝加哥量化联盟（CQA）成员", en: "Extensive experience in quantitative research, investing and a Wall Street quantitative hedge fund; member of the Chicago Quantitative Alliance" },
+    ],
   },
   {
-    year: "2026",
-    title: { zh: "聚焦底层基础研究", en: "Focus on foundational research" },
-    description: { zh: "围绕 AI、因果关系与市场不确定性持续探索。", en: "Continued exploration in AI, causality and market uncertainty." },
+    name: { zh: "卢涛博士", en: "Dr. Tao Lu" },
+    role: { zh: "CEO / 联合创始人", en: "CEO / Co-founder" },
+    image: "/about/lu-tao.png",
+    highlights: [
+      { zh: "香港中文大学博士，清华大学物理学、经济学学士", en: "PhD from The Chinese University of Hong Kong; BSc degrees in Physics and Economics from Tsinghua University" },
+      { zh: "清华大学基础科学班学分绩第一名毕业，全国物理竞赛一等奖并保送清华大学", en: "Graduated first in Tsinghua's Fundamental Sciences program; national first prize in the Physics Olympiad" },
+      { zh: "多年人工智能、行为金融与资产定价研究经验，对量化策略运作机制与市场特征具有深入研究", en: "Research experience across artificial intelligence, behavioral finance and asset pricing, with deep expertise in quantitative strategies and market structure" },
+    ],
   },
+];
+
+const teamCapabilities = [
+  { count: "FACTOR", name: { zh: "因子研究", en: "Factor Research" }, copy: { zh: "追本溯源，寻找市场蛛丝马迹的因子专家", en: "Logic-led research into signals and market structure" } },
+  { count: "AI / ML", name: { zh: "算法研究", en: "Algorithm Research" }, copy: { zh: "资深数据科学家与人工智能算法工程师", en: "Data scientists and machine-learning engineers" } },
+  { count: "RISK", name: { zh: "风险管理", en: "Risk Management" }, copy: { zh: "精准描述和控制策略风险", en: "Rigorous measurement and control of strategy risk" } },
+  { count: "TRADE", name: { zh: "交易执行", en: "Trading" }, copy: { zh: "快速响应、多重保障的交易系统与交易人员", en: "Responsive trading systems and execution professionals" } },
+  { count: "RESEARCH", name: { zh: "基础研究", en: "Fundamental Research" }, copy: { zh: "创始团队领衔，持续构建策略护城河", en: "Founder-led foundational research for durable strategy advantages" } },
+  { count: "SYSTEM", name: { zh: "系统工程", en: "Engineering" }, copy: { zh: "支持研究、数据、模型和交易的深度开发", en: "Engineering across research, data, models and execution" } },
+];
+
+const honors = [
+  { year: "2025", image: "/about/honor-golden-bull.png", title: { zh: "中国证券报·三年期金牛私募管理公司", en: "China Securities Journal · Three-year Golden Bull Private Fund Manager" } },
+  { year: "2025", image: "/about/honor-golden-bull.png", title: { zh: "金融科技·金牛科技创新量化机构", en: "FinTech Golden Bull · Quantitative Technology Innovation Institution" } },
+  { year: "2025", image: "/about/honor-golden-bull.png", title: { zh: "金融科技·量化行业金牛技术专家", en: "FinTech Golden Bull · Quantitative Technology Expert" } },
+  { year: "2024", image: "/about/honor-golden-river.png", title: { zh: "证券时报·金长江奖快速成长私募基金公司", en: "Securities Times · Golden Yangtze Award for Fast-growing Private Fund Manager" } },
+  { year: "2024", image: "/about/honor-simuwang.png", title: { zh: "排排网·TOP50私募基金管理人（股票量化多头组）", en: "Simuwang · Top 50 Private Fund Managers (Quantitative Equity)" } },
+  { year: "2024", image: "/about/honor-deloitte.png", title: { zh: "德勤中国·深圳明日之星", en: "Deloitte China · Shenzhen Rising Star" } },
+  { year: "2024", image: "/about/honor-growth-product.png", title: { zh: "证券时报私募实盘大赛·成长私募产品奖", en: "Securities Times Private Fund Competition · Growth Product Award" } },
+  { year: "2024", image: "/about/honor-pbcsf.png", title: { zh: "清华五道口全球金融科技创业大赛·最佳团队", en: "Tsinghua PBCSF Global FinTech Competition · Best Team" } },
+  { year: "2024", image: "/about/honor-eastmoney.png", title: { zh: "东方财富·最有价值管理人", en: "Eastmoney · Most Valuable Fund Manager" } },
+  { year: "2024", image: "/about/honor-hkust.png", title: { zh: "香港科技大学百万奖金创业大赛·AI领域奖", en: "HKUST One Million Dollar Entrepreneurship Competition · AI Award" } },
+  { year: "2024", image: "/about/honor-xinan.png", title: { zh: "西南证券·年度金鼎奖管理人", en: "Southwest Securities · Annual Golden Tripod Fund Manager" } },
+  { year: "—", image: "/about/honor-hkict.png", title: { zh: "香港资讯及通讯科技奖（HKICT）·MERIT奖", en: "Hong Kong ICT Awards · Merit Award" } },
 ];
 
 const newsItems = [
@@ -173,7 +247,9 @@ const newsItems = [
       en: "Combining data-driven and theory-driven research to move from correlation toward causality.",
     },
     href: "https://www.cs.com.cn/tzjj/01/2026/06/22/detail_2026062210019454.html",
+    image: "/news/cs-interview-20260622.jpg",
     featured: true,
+    category: "media" as NewsCategory,
   },
   {
     date: "2026.06.11",
@@ -187,7 +263,9 @@ const newsItems = [
       en: "As AI takes on more computation, human direction, research taste and judgment become more important.",
     },
     href: "https://mp.weixin.qq.com/s/XFgx6A5dvBTkTrX0iyDEoQ",
+    image: "/news/investment-style.png",
     featured: true,
+    category: "media" as NewsCategory,
   },
   {
     date: "2025.12.22",
@@ -195,6 +273,8 @@ const newsItems = [
     title: { zh: "关于公司名称、经营范围及注册地址变更的通知", en: "Notice on changes to company name, business scope and registered address" },
     description: { zh: "因业务发展需要，公司完成工商变更登记。", en: "Corporate registration updates completed in line with business development." },
     href: "https://mp.weixin.qq.com/s/plAnUnGdr4d8YT3GA6Ed5A?scene=1",
+    image: "/news/company-notice.png",
+    category: "announcement" as NewsCategory,
   },
   {
     date: "2025.10.15",
@@ -202,6 +282,8 @@ const newsItems = [
     title: { zh: "超量子基金荣获三年期金牛私募管理公司奖", en: "Super Quantum receives the Three-year Golden Bull Private Fund Manager award" },
     description: { zh: "第十六届中国私募金牛奖评选结果正式揭晓。", en: "Results of the 16th China Private Fund Golden Bull Awards were announced." },
     href: "https://mp.weixin.qq.com/s/6jjTZWFCQQ9WSq5U_dOp0g?scene=1",
+    image: "/news/golden-bull.png",
+    category: "company" as NewsCategory,
   },
   {
     date: "2024.06.18",
@@ -209,6 +291,8 @@ const newsItems = [
     title: { zh: "微盘股今年已经三次暴跌，此类策略未来会怎么样？", en: "After three micro-cap selloffs, what comes next for the strategy?" },
     description: { zh: "从市场冲击出发，讨论小微盘策略的结构性风险。", en: "A discussion of structural risks in micro-cap strategies after major market shocks." },
     href: "https://mp.weixin.qq.com/s/_zaSlJV0zQ0iZmylzLBHfg",
+    image: "/news/market-risk.png",
+    category: "research" as NewsCategory,
   },
   {
     date: "2024.06.14",
@@ -216,6 +300,8 @@ const newsItems = [
     title: { zh: "发生战争时股市一定跌吗？", en: "Do equity markets always fall during wars?" },
     description: { zh: "回看战争、经济与资本市场之间的复杂关系。", en: "A historical look at the complex links between conflict, economies and markets." },
     href: "https://mp.weixin.qq.com/s/5Y8eUMsfHyajxm1zlub52g",
+    image: "/news/market-history.png",
+    category: "research" as NewsCategory,
   },
   {
     date: "2024.04.03",
@@ -223,6 +309,8 @@ const newsItems = [
     title: { zh: "好的投资者让投资变得更加困难？", en: "Do better investors make investing more difficult?" },
     description: { zh: "从市场效率与投资者行为出发，思考长期投资机会。", en: "A reflection on market efficiency, behavior and long-term opportunity." },
     href: "https://mp.weixin.qq.com/s/tFYCEZvsZrfWmSFSrbnUYg",
+    image: "/news/investor-behavior.png",
+    category: "research" as NewsCategory,
   },
   {
     date: "2024.03.11",
@@ -230,6 +318,8 @@ const newsItems = [
     title: { zh: "投资中的风险、不确定性和无知", en: "Risk, uncertainty and ignorance in investing" },
     description: { zh: "不写公式，讲清超量子如何理解分布不确定性与风控。", en: "An accessible explanation of distributional uncertainty and risk control." },
     href: "https://mp.weixin.qq.com/s/I9nFNX-YfKKF4inX4DWcRw",
+    image: "/news/market-risk.png",
+    category: "research" as NewsCategory,
   },
   {
     date: "2024.03.06",
@@ -237,6 +327,8 @@ const newsItems = [
     title: { zh: "投资中的“傲慢”与“偏见”", en: "Hubris and bias in investing" },
     description: { zh: "情绪如何塑造判断，又如何成为市场不完美的来源。", en: "How emotion shapes judgment and contributes to market imperfections." },
     href: "https://mp.weixin.qq.com/s/e2VexWnAn50ggkim_yDVhA",
+    image: "/news/investor-behavior.png",
+    category: "research" as NewsCategory,
   },
   {
     date: "2024.02.22",
@@ -244,6 +336,8 @@ const newsItems = [
     title: { zh: "能用量化的思维来解读巴菲特吗？", en: "Can Buffett be understood through a quantitative lens?" },
     description: { zh: "以实证方法研究经典投资风格与超额收益来源。", en: "An empirical view of classic investment styles and sources of excess return." },
     href: "https://mp.weixin.qq.com/s/VB6bc-4pEix9l0-dcmMaww",
+    image: "/news/investment-style.png",
+    category: "research" as NewsCategory,
   },
   {
     date: "2024.02.07",
@@ -251,6 +345,8 @@ const newsItems = [
     title: { zh: "科学地理解巴菲特、索罗斯、林奇和格罗斯的投资风格", en: "A scientific view of Buffett, Soros, Lynch and Gross" },
     description: { zh: "用量化证据拆解不同投资大师的风格特征。", en: "Quantitative evidence behind the distinct styles of four investment legends." },
     href: "https://mp.weixin.qq.com/s/ZV4uiM4UUdwwqHTZXJZdLw",
+    image: "/news/investment-style.png",
+    category: "research" as NewsCategory,
   },
 ];
 
@@ -258,12 +354,12 @@ const disclosures = [
   {
     year: "2025",
     title: { zh: "2025 年度环境信息披露报告", en: "2025 Environmental Information Disclosure Report" },
-    href: "https://superquant.fund/pdf/disclosure1.pdf",
+    href: "/disclosures/environmental-disclosure-2025.pdf",
   },
   {
     year: "2024",
     title: { zh: "2024 年度环境信息披露报告", en: "2024 Environmental Information Disclosure Report" },
-    href: "https://superquant.fund/pdf/disclosure.pdf",
+    href: "/disclosures/environmental-disclosure-2024.pdf",
   },
 ];
 
@@ -273,6 +369,8 @@ export default function Home() {
   const [lang, setLang] = useState<Lang>("zh");
   const [qualified, setQualified] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
+  const [activeNewsFilter, setActiveNewsFilter] = useState<"all" | NewsCategory | "disclosure">("all");
+  const [showAllNews, setShowAllNews] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
 
   const tr = (zh: string, en: string) => (lang === "zh" ? zh : en);
@@ -306,6 +404,19 @@ export default function Home() {
     const y = ((event.clientY - rect.top) / rect.height) * 100;
     heroRef.current?.style.setProperty("--pointer-x", `${x}%`);
     heroRef.current?.style.setProperty("--pointer-y", `${y}%`);
+  };
+
+  const selectedNews = activeNewsFilter === "all"
+    ? newsItems
+    : activeNewsFilter === "disclosure"
+      ? []
+      : newsItems.filter((item) => item.category === activeNewsFilter);
+  const visibleNews = showAllNews || activeNewsFilter !== "all" ? selectedNews : selectedNews.slice(0, 6);
+  const showDisclosures = activeNewsFilter === "all" || activeNewsFilter === "disclosure";
+
+  const selectNewsFilter = (filter: "all" | NewsCategory | "disclosure") => {
+    setActiveNewsFilter(filter);
+    setShowAllNews(filter !== "all");
   };
 
   return (
@@ -393,9 +504,6 @@ export default function Home() {
           <button className="lang-toggle" type="button" onClick={() => setLang(lang === "zh" ? "en" : "zh")} aria-label={tr("切换至英文", "Switch to Chinese")}>
             {lang === "zh" ? "中 / EN" : "EN / 中"}
           </button>
-          <a className="nav-contact" href="#contact" onClick={() => setMenuOpen(false)}>
-            {tr("联系我们", "Contact")} <span aria-hidden="true">↗</span>
-          </a>
         </nav>
 
         <button className="menu-button" type="button" aria-label={menuOpen ? tr("关闭导航", "Close menu") : tr("打开导航", "Open menu")} aria-expanded={menuOpen} onClick={() => setMenuOpen((value) => !value)}>
@@ -442,7 +550,7 @@ export default function Home() {
         </div>
 
         <div className="hero-foot shell">
-          <div><span>01</span> SCIENCE</div><div><span>02</span> TECHNOLOGY</div><div><span>03</span> FINANCE</div><div><span>04</span> ART</div>
+          <div><span>F</span> FINANCIAL MODELING</div><div><span>A</span> ARTFUL INVESTMENT</div><div><span>S</span> SCIENTIFIC RESEARCH</div><div><span>T</span> TECHNOLOGY BREAKTHROUGHS</div>
         </div>
       </section>
 
@@ -453,6 +561,7 @@ export default function Home() {
             <h2>{tr("多元策略，", "Multiple strategies,")}<br /><span>{tr("回应不同投资目标。", "one research foundation.")}</span></h2>
             <div>
               <p>{tr("超量子基金具有量化指数增强、量化多头、灵活对冲等多系列产品，满足投资者不同风险偏好的需求。", "Our quantitative index enhancement, long-only and flexible hedging strategies are designed for different investor objectives and risk preferences.")}</p>
+              <p>{tr("我们长期看好中国经济与资本市场的发展，致力于在获取市场 Beta 收益的同时，通过系统化研究持续挖掘稳健的 Alpha 来源。", "We remain optimistic about the long-term development of China's economy and capital markets, seeking market beta alongside durable alpha through systematic research.")}</p>
               <a href="mailto:service@superquant.fund?subject=产品与服务咨询">{tr("咨询产品与服务", "Product enquiries")} ↗</a>
             </div>
           </div>
@@ -460,7 +569,11 @@ export default function Home() {
             {productItems.map((item, index) => (
               <article className="product-card" key={item.code}>
                 <div className="product-card-top"><span>0{index + 1}</span><small>{item.code}</small></div>
-                <div className="product-signal" aria-hidden="true"><i /><i /><i /><i /></div>
+                <div className={`product-visual product-visual-${index + 1}`} aria-hidden="true">
+                  {index === 0 && <><i /><i /><i /><i /><span /></>}
+                  {index === 1 && <><span /><span /><span /><span /><span /><b /></>}
+                  {index === 2 && <><span /><span /><i /><b /></>}
+                </div>
                 <h3>{pick(lang, item.title)}</h3>
                 <p>{pick(lang, item.description)}</p>
                 <strong>{pick(lang, item.detail)}</strong>
@@ -477,15 +590,50 @@ export default function Home() {
             <h2>{tr("用科学，", "Genuine science,")}<br /><span>{tr("重构主动管理。", "applied to investing.")}</span></h2>
             <div className="about-copy">
               <p className="lead">{tr("超量子基金是一家以研究驱动的量化基金管理公司，聚焦中低频股票 Alpha 策略，为投资者提供指数增强及中性对冲产品。", "Super Quantum is a research-driven quantitative asset manager focused on medium- and low-frequency equity alpha, index enhancement and market-neutral strategies.")}</p>
-              <p>{tr("我们相信，量化投资的终点不是更复杂的模型，而是对市场规律更深的理解。深厚的学术研究、可持续的工程系统与对风险的敬畏，共同构成超量子的投资方法。", "We believe quantitative investing is not ultimately about more complex models, but deeper market understanding. Academic rigor, scalable systems and respect for risk define our approach.")}</p>
+              <p>{tr("公司在中国证券投资基金业协会登记为私募证券投资基金管理人（登记编号 P1071044），以机器学习、计量经济学和金融数学研究服务于量化资产管理。", "The firm is registered with the Asset Management Association of China as a private securities fund manager (P1071044), applying machine learning, econometrics and financial mathematics to quantitative asset management.")}</p>
+              <p>{tr("团队成员来自麻省理工学院、哥伦比亚大学、清华大学、北京大学、加州大学、香港科技大学及香港中文大学等高校。深厚的学术研究、可持续的工程系统与对风险的敬畏，共同构成超量子的投资方法。", "Our team includes graduates from MIT, Columbia, Tsinghua, Peking University, the University of California, HKUST and CUHK. Academic rigor, scalable systems and respect for risk define our approach.")}</p>
             </div>
           </div>
           <div className="public-facts">
-            <div className="fact-card"><strong>30<sup>+</sup></strong><span>{tr("研发团队成员", "Research professionals")}</span><p>{tr("研究、算法、风控、交易与系统工程协同", "Research, algorithms, risk, trading and engineering")}</p></div>
-            <div className="fact-card"><strong>10<sup>+</sup></strong><span>{tr("海内外高校博士", "PhD researchers")}</span><p>{tr("多元学科背景，连接学术前沿与市场实践", "Interdisciplinary talent connecting academia and markets")}</p></div>
-            <div className="fact-card"><strong>4<sup>{tr("地", "HUBS")}</sup></strong><span>{tr("基础设施矩阵", "Infrastructure network")}</span><p>{tr("北上深港协同部署，支撑稳定研究与交易", "Beijing, Shanghai, Shenzhen and Hong Kong")}</p></div>
+            <div className="fact-card"><strong>40<sup>+</sup></strong><span>{tr("投研团队", "Investment & research team")}</span><p>{tr("研究、算法、风控、交易与系统工程协同", "Research, algorithms, risk, trading and engineering")}</p></div>
+            <div className="fact-card"><strong>10<sup>+</sup></strong><span>{tr("博士研究员", "Doctoral researchers")}</span><p>{tr("计算机、数学、统计、物理与金融等交叉背景", "Cross-disciplinary backgrounds in computing, mathematics, statistics, physics and finance")}</p></div>
+            <div className="fact-card"><strong>{tr("数万", "10K")}<sup>+</sup></strong><span>{tr("因子研究与挖掘", "Factors researched")}</span><p>{tr("技术面、基本面、舆情等多维信息", "Technical, fundamental and sentiment dimensions")}</p></div>
             <div className="fact-card recognition-card"><small>INDUSTRY RECOGNITION</small><span>{tr("三年期金牛私募管理公司", "Three-year Golden Bull Private Fund Manager")}</span><p>{tr("研究能力与长期实践获得行业认可", "Recognition for long-term research and practice")}</p></div>
           </div>
+        </div>
+      </section>
+
+      <section className="founders-section section-light">
+        <div className="shell">
+          <div className="section-kicker dark">FOUNDING TEAM</div>
+          <div className="subsection-heading"><h2>{tr("创始团队", "Founding Team")}</h2><p>{tr("学术研究、产业实践与工程能力，在同一套投研系统中长期协同。", "Academic research, industry practice and engineering capability work together in one long-term research system.")}</p></div>
+          <div className="founder-grid">
+            {founders.map((founder) => (
+              <article className="founder-card" key={founder.image}>
+                <div className="founder-portrait"><img src={founder.image} alt={pick(lang, founder.name)} /></div>
+                <div className="founder-content"><small>{pick(lang, founder.role)}</small><h3>{pick(lang, founder.name)}</h3><ul>{founder.highlights.map((highlight, index) => <li key={index}>{pick(lang, highlight)}</li>)}</ul></div>
+              </article>
+            ))}
+          </div>
+          <div className="team-intro">
+            <div><small>THE TEAM</small><h3>{tr("40+ 投研团队，跨学科协同", "40+ investment and research professionals")}</h3><p>{tr("覆盖因子研究、算法研究、基础研究、风控、交易执行与系统工程，以共同语言连接研究与投资。", "Factor research, algorithms, foundational research, risk, trading and engineering are connected through one shared investment language.")}</p></div>
+            <div className="team-capability-grid">{teamCapabilities.map((item) => <div className="team-capability" key={item.count}><small>{item.count}</small><strong>{pick(lang, item.name)}</strong><p>{pick(lang, item.copy)}</p></div>)}</div>
+          </div>
+        </div>
+      </section>
+
+      <section className="honors-section section-light">
+        <div className="shell">
+          <div className="section-kicker dark">HONORS & RECOGNITION</div>
+          <div className="subsection-heading"><h2>{tr("荣誉与认可", "Honors & Recognition")}</h2><p>{tr("长期研究与投资实践，获得来自行业、学术与科技领域的多项认可。", "Long-term research and investment practice recognized across finance, academia and technology.")}</p></div>
+          <div className="honor-grid">{honors.map((honor, index) => <article className="honor-card" key={`${honor.year}-${index}`}><div className="honor-logo"><img src={honor.image} alt="" /></div><small>{honor.year}</small><h3>{pick(lang, honor.title)}</h3></article>)}</div>
+        </div>
+      </section>
+
+      <section className="programmatic-section">
+        <div className="shell programmatic-layout">
+          <div><div className="section-kicker">AI-DRIVEN PROGRAMMATIC INVESTING</div><h2>{tr("人工智能主导的，", "AI-driven,")}<br />{tr("程序化投资体系。", "programmatic investing.")}</h2><p>{tr("以深度学习、深度神经网络与计量经济学为技术底座，融合金融数学研究及中国、美国量化交易实践，把数据、模型、风险与执行连接为完整系统。", "Deep learning, neural networks and econometrics combine with financial mathematics and quantitative trading experience across China and the United States, linking data, models, risk and execution into one system.")}</p></div>
+          <div className="programmatic-flow"><div><small>01</small><strong>{tr("研究与经验", "Research & Experience")}</strong><span>{tr("AI 技术 · 金融数学 · 中美量化实践", "AI · Financial Mathematics · China/US Quant Practice")}</span></div><i>→</i><div><small>02</small><strong>{tr("多地基础设施", "Multi-site Infrastructure")}</strong><span>{tr("深圳 · 北京 · 上海 · 香港", "Shenzhen · Beijing · Shanghai · Hong Kong")}</span></div><i>→</i><div><small>03</small><strong>{tr("程序化策略与执行", "Programmatic Strategy & Execution")}</strong><span>{tr("全时段捕捉机会 · 风险实时监控", "Full-session opportunity capture · Real-time risk monitoring")}</span></div></div>
         </div>
       </section>
 
@@ -509,7 +657,7 @@ export default function Home() {
           <div className="section-kicker">FAST · OUR METHODOLOGY</div>
           <div className="method-intro">
             <h2>{tr("一套完整的方法，", "A complete methodology")}<br />{tr("面对一个不断变化的市场。", "for a changing market.")}</h2>
-            <p>{tr("演绎与归纳相互校验，研究与工程彼此增强。我们把投资看作一套持续进化的认知系统。", "Deduction and induction check each other; research and engineering reinforce one another. We see investing as an evolving cognitive system.")}</p>
+            <p>{tr("FAST体系以金融逻辑为起点，以数据挖掘为方法；模型训练、自动化交易与风险控制协同，让策略在市场变化中持续迭代。", "FAST starts with financial logic and data mining, then connects model training, automated execution and risk control for continuous strategy iteration.")}</p>
           </div>
           <div className="method-grid">
             {methodology.map((item) => (
@@ -534,7 +682,7 @@ export default function Home() {
             {engineSteps.map((step, index) => (
               <article key={step.code} className="engine-step">
                 <div className="step-topline"><span>0{index + 1}</span><small>{step.code}</small></div><div className="step-pulse" aria-hidden="true"><i /></div>
-                <h3>{pick(lang, step.title)}</h3><p>{pick(lang, step.description)}</p><strong>{step.meta}</strong>
+                <h3>{pick(lang, step.title)}</h3><p>{pick(lang, step.description)}</p><ul>{step.bullets.map((bullet, bulletIndex) => <li key={bulletIndex}>{pick(lang, bullet)}</li>)}</ul><strong>{step.meta}</strong>
               </article>
             ))}
           </div>
@@ -545,34 +693,62 @@ export default function Home() {
         <div className="shell">
           <div className="news-heading">
             <div><div className="section-kicker dark">NEWS & INSIGHTS</div><h2>{tr("动态资讯", "News & Insights")}</h2></div>
-            <p>{tr("保留原官网全部研究观点与公司动态，并持续更新公开报道。", "Company updates, published research and media coverage from Super Quantum.")}</p>
+            <p>{tr("公司动态、媒体报道、研究观点、公司公告与信息披露，统一归档于此。", "Company updates, media coverage, research, announcements and disclosures—kept in one newsroom.")}</p>
+          </div>
+          <div className="news-filter-bar" role="tablist" aria-label={tr("资讯分类", "News categories")}>
+            {newsFilters.map((filter) => (
+              <button
+                type="button"
+                key={filter.key}
+                className={activeNewsFilter === filter.key ? "is-active" : ""}
+                onClick={() => selectNewsFilter(filter.key)}
+                role="tab"
+                aria-selected={activeNewsFilter === filter.key}
+              >
+                {pick(lang, filter.label)}
+              </button>
+            ))}
           </div>
           <div className="news-grid">
-            {newsItems.map((item) => (
+            {visibleNews.map((item) => (
               <a className={`news-card ${item.featured ? "is-featured" : ""}`} key={item.href} href={item.href} target="_blank" rel="noreferrer">
-                <div className="news-meta"><span>{item.date}</span><small>{pick(lang, item.source)}</small></div>
+                <div className="news-image"><img src={item.image} alt="" /></div>
+                <div className="news-meta"><span>{item.date}</span><small>{pick(lang, newsFilters.find((filter) => filter.key === item.category)?.label ?? item.source)}</small></div>
                 <h3>{pick(lang, item.title)}</h3><p>{pick(lang, item.description)}</p>
-                <span className="news-link">{tr("阅读全文", "Read article")} ↗</span>
+                <span className="news-link">{tr("阅读原文", "Read original")} ↗</span>
               </a>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section id="disclosure" className="disclosure-section">
-        <div className="shell disclosure-layout">
-          <div>
-            <div className="section-kicker">INFORMATION DISCLOSURE</div>
-            <h2>{tr("信息披露", "Information Disclosure")}</h2>
-            <p>{tr("查看深圳市超量子私募证券基金管理有限公司公开披露文件。", "Public disclosure documents of Shenzhen Super Quantum Private Securities Fund Management Co., Ltd.")}</p>
-          </div>
-          <div className="disclosure-list">
-            {disclosures.map((item) => (
-              <a key={item.year} href={item.href} target="_blank" rel="noreferrer">
-                <span>{item.year}</span><strong>{pick(lang, item.title)}</strong><i aria-hidden="true">↗</i>
-              </a>
-            ))}
-          </div>
+          {showDisclosures && (
+            <div className="news-disclosure">
+              <div className="news-disclosure-heading">
+                <small>INFORMATION DISCLOSURE</small>
+                <h3>{tr("信息披露", "Information Disclosure")}</h3>
+                <p>{tr("深圳市超量子私募证券基金管理有限公司公开披露文件。", "Public disclosures of Shenzhen Super Quantum Private Securities Fund Management Co., Ltd.")}</p>
+              </div>
+              <div className="news-disclosure-list">
+                {disclosures.map((item) => (
+                  <a key={item.year} href={item.href} target="_blank" rel="noreferrer">
+                    <span>{item.year}</span><strong>{pick(lang, item.title)}</strong><i aria-hidden="true">↗</i>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+          {activeNewsFilter === "all" && !showAllNews && (
+            <div className="news-more">
+              <button className="outline-button" type="button" onClick={() => setShowAllNews(true)}>
+                {tr("查看全部历史动态", "View all updates")} <span aria-hidden="true">↓</span>
+              </button>
+            </div>
+          )}
+          {activeNewsFilter === "all" && showAllNews && (
+            <div className="news-more">
+              <button className="text-button news-collapse" type="button" onClick={() => setShowAllNews(false)}>
+                {tr("收起历史动态", "Collapse updates")} <span aria-hidden="true">↑</span>
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -582,15 +758,16 @@ export default function Home() {
             <div className="section-kicker dark">JOIN SUPER QUANTUM</div>
             <h2>{tr("和聪明的人一起，", "Work with curious minds,")}<br /><span>{tr("研究真正困难的问题。", "on genuinely hard problems.")}</span></h2>
             <p>{tr("我们长期寻找对数学、机器学习、金融市场和复杂系统保持好奇的人。研究员、算法工程师、交易系统与基础设施岗位持续开放。", "We are always looking for people curious about mathematics, machine learning, financial markets and complex systems. Research, algorithms, trading systems and infrastructure roles remain open.")}</p>
-            <a className="outline-button" href="mailto:service@superquant.fund?subject=超量子基金职位申请">{tr("投递简历", "Send your CV")} <span aria-hidden="true">↗</span></a>
+            <div className="career-actions">
+              <a className="outline-button" href="mailto:hr@superquant.fund?subject=【超量子简历投递】">{tr("投递简历", "Send your CV")} <span aria-hidden="true">↗</span></a>
+              <a className="career-pdf-link" href="/careers/superquant-summer-recruitment-2026.pdf" target="_blank" rel="noreferrer">{tr("查看完整招聘手册", "View recruitment brochure")} ↗</a>
+            </div>
+            <div className="career-email"><small>{tr("招聘邮箱", "RECRUITMENT EMAIL")}</small><a href="mailto:hr@superquant.fund">hr@superquant.fund</a></div>
           </div>
-          <div className="career-poster">
-            <div className="poster-grid" aria-hidden="true" />
-            <small>LATEST OPENINGS · 2026</small>
-            <strong>{tr("招聘海报", "CAREERS")}</strong>
-            <p>{tr("最新招聘海报将在此更新", "Latest recruitment poster coming soon")}</p>
-            <div className="poster-roles"><span>RESEARCH</span><span>ML / AI</span><span>ENGINEERING</span><span>TRADING</span></div>
-          </div>
+          <a className="career-poster career-poster-real" href="/careers/superquant-summer-recruitment-2026.pdf" target="_blank" rel="noreferrer" aria-label={tr("打开 2026 年招聘手册", "Open the 2026 recruitment brochure")}>
+            <img src="/careers/superquant-summer-recruitment-2026-cover.png" alt={tr("超量子基金 2026 年校园招聘海报", "Super Quantum 2026 campus recruitment poster")} />
+            <span>{tr("点击查看 9 页完整招聘手册", "Open the complete 9-page brochure")} ↗</span>
+          </a>
         </div>
       </section>
 
@@ -600,6 +777,10 @@ export default function Home() {
           <div className="section-kicker">CONNECT WITH US</div>
           <h2>{tr("一起，理解市场的下一种可能。", "Explore what markets can become.")}</h2>
           <p>{tr("机构合作、产品咨询与人才加入，欢迎与超量子团队联系。", "For institutional partnerships, product enquiries and careers, connect with our team.")}</p>
+          <div className="contact-details">
+            <div><small>{tr("公司地址", "ADDRESS")}</small><strong>{tr("深圳市福田区金田路 2030 号卓越世纪中心 1 号楼", "Tower 1, Excellence Century Center, 2030 Jintian Road, Futian District, Shenzhen")}</strong></div>
+            <div><small>{tr("联系邮箱", "EMAIL")}</small><a href="mailto:service@superquant.fund">service@superquant.fund</a></div>
+          </div>
           <a className="contact-link" href="mailto:service@superquant.fund">service@superquant.fund <span aria-hidden="true">↗</span></a>
         </div>
       </section>
