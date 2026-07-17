@@ -1,0 +1,3 @@
+.brand-display span{background-blend-mode:multiply;filter:saturate(.62) contrast(1.08)}
+.brand-display .super{background-image:linear-gradient(rgba(18,59,152,.38),rgba(18,59,152,.38)),url("hero/highway.jpg")}
+.brand-display .quantum{background-image:linear-gradient(rgba(18,59,152,.26),rgba(18,59,152,.26)),url("hero/market-data.jpg")}
