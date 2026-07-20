@@ -1096,19 +1096,19 @@ img {
 
 .founder-card {
   display: grid;
-  min-height: 490px;
+  min-height: 0;
   padding: 30px;
   border-right: 1px solid #c9cdcb;
   border-bottom: 1px solid #c9cdcb;
-  grid-template-columns: 180px 1fr;
-  gap: 30px;
+  grid-template-columns: 220px 1fr;
+  gap: 34px;
 }
 
 .founder-portrait {
   position: relative;
   overflow: hidden;
   align-self: start;
-  aspect-ratio: .78;
+  aspect-ratio: 1;
   background: linear-gradient(160deg, #e6e8f3, #cdd3e6);
 }
 
@@ -1134,8 +1134,8 @@ img {
 }
 
 .team-intro > div:first-child small { color: #3442d2; font-family: var(--font-geist-mono), monospace; font-size: 9px; letter-spacing: .14em; }
-.team-intro > div:first-child h3 { margin: 20px 0; font-size: 31px; font-weight: 540; line-height: 1.35; }
-.team-intro > div:first-child p { color: #717684; font-size: 13px; line-height: 1.8; }
+.team-intro > div:first-child h3 { margin: 20px 0; font-size: 34px; font-weight: 560; line-height: 1.35; }
+.team-intro > div:first-child p { color: #5f6575; font-size: 15px; line-height: 1.85; }
 .team-capability-grid { display: grid; border-top: 1px solid #c9cdcb; border-left: 1px solid #c9cdcb; grid-template-columns: repeat(3, 1fr); }
 .team-capability { min-height: 170px; padding: 22px; border-right: 1px solid #c9cdcb; border-bottom: 1px solid #c9cdcb; }
 .team-capability small { color: #4552d8; font-family: var(--font-geist-mono), monospace; font-size: 8px; letter-spacing: .13em; }
@@ -1697,7 +1697,7 @@ img {
   .nav-contact { gap: 12px; padding: 0 12px; }
   .timeline { grid-template-columns: repeat(3, 1fr); }
   .timeline-item { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-  .founder-card { grid-template-columns: 140px 1fr; }
+  .founder-card { grid-template-columns: 190px 1fr; }
   .honor-grid { grid-template-columns: repeat(3, 1fr); }
   .programmatic-layout { gap: 50px; }
 }
@@ -1751,7 +1751,7 @@ img {
   .disclosure-list strong { font-size: 14px; }
   .career-poster { min-height: 430px; padding: 28px 24px; }
   .founder-card { padding: 22px; grid-template-columns: 1fr; }
-  .founder-portrait { width: 160px; }
+  .founder-portrait { width: min(220px, 100%); }
   .team-capability-grid, .honor-grid { grid-template-columns: 1fr; }
   .programmatic-flow { flex-direction: column; }
   .programmatic-flow > div { min-height: 210px; }

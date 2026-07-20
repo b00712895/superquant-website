@@ -191,7 +191,7 @@ const founders = [
   {
     name: { zh: "张晓泉教授", en: "Professor Michael Zhang, Ph.D." },
     role: { zh: "创始人", en: "Founder" },
-    image: "/about/zhang-xiaoquan.png",
+    image: "/about/zhang-xiaoquan-official.png",
     highlights: [
       { zh: "清华大学经管学院深圳研究院常务副院长、讲席教授，香港深圳联合金融研究中心主任", en: "Executive Associate Dean and Chair Professor at Tsinghua SEM Shenzhen Research Institute; Director of the Hong Kong-Shenzhen Finance Research Centre" },
       { zh: "麻省理工学院（MIT）博士，清华大学管理学硕士、计算机科学学士、英语文学学士", en: "PhD from MIT; MSc in Management, BE in Computer Science and BA in English from Tsinghua University" },
