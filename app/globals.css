@@ -1498,6 +1498,8 @@ img {
 .news-card.is-featured:first-child .news-image img { object-position: 50% 27%; }
 .news-card h3 { margin-top: 30px; }
 .news-card.is-featured h3 { margin-top: 34px; }
+.ai-flow > div > span .lang-zh,
+.ai-flow > div > span .lang-en { display: inline; }
 
 .news-more {
   display: flex;
