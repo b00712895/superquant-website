@@ -1738,6 +1738,7 @@ img {
   .timeline-item { min-height: 225px; }
   .news-card { padding: 24px 22px; }
   .news-image { margin: -24px -22px 22px; }
+  .news-card.is-featured:first-child .news-image img { object-position: 50% 8%; }
   .news-card h3 { margin-top: 38px; font-size: 20px; }
   .news-card h3 { margin-top: 24px; }
   .news-meta { align-items: flex-start; flex-direction: column; gap: 7px; }

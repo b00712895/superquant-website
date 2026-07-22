@@ -8,12 +8,12 @@ type NewsCategory = "company" | "media" | "research" | "announcement";
 
 const pick = (lang: Lang, value: Bilingual) => value[lang];
 
-const navItems: Array<{ label: Bilingual; href: string }> = [
+const navItems: Array<{ label: Bilingual; href: string; zhOnly?: boolean }> = [
   { label: { zh: "首页", en: "Home" }, href: "#top" },
   { label: { zh: "关于我们", en: "About" }, href: "#about" },
   { label: { zh: "产品与服务", en: "Products" }, href: "#products" },
   { label: { zh: "动态资讯", en: "News" }, href: "#news" },
-  { label: { zh: "加入我们", en: "Careers" }, href: "#careers" },
+  { label: { zh: "加入我们", en: "Careers" }, href: "#careers", zhOnly: true },
   { label: { zh: "联系我们", en: "Contact" }, href: "#contact" },
 ];
 
@@ -496,7 +496,7 @@ export default function Home() {
         </a>
 
         <nav className={`site-nav ${menuOpen ? "is-open" : ""}`} aria-label={tr("主导航", "Main navigation")}>
-          {navItems.map((item) => (
+          {navItems.filter((item) => lang === "zh" || !item.zhOnly).map((item) => (
             <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
               {pick(lang, item.label)}
             </a>
@@ -752,7 +752,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="careers" className="careers-section section-light">
+      {lang === "zh" && <section id="careers" className="careers-section section-light">
         <div className="shell careers-layout">
           <div className="careers-copy">
             <div className="section-kicker dark">JOIN SUPER QUANTUM</div>
@@ -769,14 +769,14 @@ export default function Home() {
             <span>{tr("点击查看 9 页完整招聘手册", "Open the complete 9-page brochure")} ↗</span>
           </a>
         </div>
-      </section>
+      </section>}
 
       <section id="contact" className="contact-section">
         <div className="contact-orb orb-a" aria-hidden="true" /><div className="contact-orb orb-b" aria-hidden="true" />
         <div className="shell contact-inner">
           <div className="section-kicker">CONNECT WITH US</div>
           <h2>{tr("一起，理解市场的下一种可能。", "Explore what markets can become.")}</h2>
-          <p>{tr("机构合作、产品咨询与人才加入，欢迎与超量子团队联系。", "For institutional partnerships, product enquiries and careers, connect with our team.")}</p>
+          <p>{tr("机构合作、产品咨询与人才加入，欢迎与超量子团队联系。", "For institutional partnerships and product enquiries, connect with our team.")}</p>
           <div className="contact-details">
             <div><small>{tr("公司地址", "ADDRESS")}</small><strong>{tr("深圳市福田区金田路 2030 号卓越世纪中心 1 号楼", "Tower 1, Excellence Century Center, 2030 Jintian Road, Futian District, Shenzhen")}</strong></div>
             <div><small>{tr("联系邮箱", "EMAIL")}</small><a href="mailto:service@superquant.fund">service@superquant.fund</a></div>
@@ -788,7 +788,7 @@ export default function Home() {
       <footer className="site-footer">
         <div className="shell footer-main">
           <div className="footer-brand"><img src="/superquant-logo.png" alt="SUPER QUANTUM 超量子基金" /><p>{tr("智能重构金融世界", "RETHINKING FINANCE WITH INTELLIGENCE")}</p></div>
-          <div className="footer-links">{navItems.map((item) => <a key={item.href} href={item.href}>{pick(lang, item.label)}</a>)}</div>
+          <div className="footer-links">{navItems.filter((item) => lang === "zh" || !item.zhOnly).map((item) => <a key={item.href} href={item.href}>{pick(lang, item.label)}</a>)}</div>
           <a className="back-top" href="#top">{tr("回到顶部", "BACK TO TOP")} ↑</a>
         </div>
         <div className="shell footer-legal">
