@@ -156,34 +156,35 @@ const engineSteps = [
 
 const milestones = [
   {
-    year: "1994",
-    title: { zh: "研究构想萌芽", en: "The research idea begins" },
-    description: { zh: "张晓泉教授开始构想如何将数理统计模型与机器学习应用于金融市场交易。", en: "Professor Michael Zhang began exploring how statistical models and machine learning could be applied to financial markets." },
+    year: { zh: "1994", en: "2019" },
+    title: { zh: "研究构想萌芽", en: "Founded in Shenzhen" },
+    description: { zh: "张晓泉教授开始构想如何将数理统计模型与机器学习应用于金融市场交易。", en: "Super Quantum founded in Shenzhen." },
   },
   {
-    year: "2015",
-    title: { zh: "组建创始团队", en: "Founding team formed" },
-    description: { zh: "构建统计研究工具，开发面向 A 股市场的量化交易策略。", en: "The founding team built statistical research tools and developed quantitative strategies for China A-shares." },
+    year: { zh: "2015", en: "2020" },
+    title: { zh: "组建创始团队", en: "AMAC registration & first product" },
+    description: { zh: "构建统计研究工具，开发面向 A 股市场的量化交易策略。", en: "Super Quantum became an AMAC-registered private fund manager in June and launched the first index enhanced product." },
   },
   {
-    year: "2020",
-    title: { zh: "完成管理人登记", en: "AMAC registration" },
-    description: { zh: "登记为私募证券投资基金管理人，同年发行首只指数增强型量化基金。", en: "Registered with AMAC as a private securities fund manager and launched its first index-enhancement fund." },
+    year: { zh: "2020", en: "2022" },
+    title: { zh: "完成管理人登记", en: "SFC Type 9 asset manager" },
+    description: { zh: "登记为私募证券投资基金管理人，同年发行首只指数增强型量化基金。", en: "Super Quantum Hong Kong became an SFC licensed (Type 9) asset manager." },
   },
   {
-    year: "2022",
-    title: { zh: "投研系统完善", en: "Research system expansion" },
-    description: { zh: "设立北京研究中心及香港业务中心，取得香港资产管理第 9 类牌照。", en: "Established Beijing and Hong Kong hubs and received the Hong Kong Type 9 asset management license." },
+    year: { zh: "2022", en: "2023" },
+    title: { zh: "投研系统完善", en: "AMAC Financial Advisor license" },
+    description: { zh: "设立北京研究中心及香港业务中心，取得香港资产管理第 9 类牌照。", en: "Obtained AMAC Financial Advisor license." },
   },
   {
-    year: "2023",
-    title: { zh: "拓展机构业务", en: "Institutional business expansion" },
-    description: { zh: "正式对外募资，取得“3+3”投顾资质。", en: "Expanded external fundraising and obtained the 3+3 investment advisory qualification." },
+    year: { zh: "2023", en: "2025" },
+    title: { zh: "拓展机构业务", en: "AUM milestone" },
+    description: { zh: "正式对外募资，取得“3+3”投顾资质。", en: "Total AUM passed US$1.4 billion (10 billion RMB)." },
   },
   {
-    year: "2025",
+    year: { zh: "2025", en: "2025" },
     title: { zh: "规模与认可", en: "Scale and recognition" },
     description: { zh: "荣获三年期股票策略私募金牛奖，最新管理规模 140 亿+。", en: "Received the three-year equity strategy Golden Bull award; latest AUM exceeds RMB 14 billion." },
+    enHidden: true,
   },
 ];
 
@@ -640,11 +641,11 @@ export default function Home() {
       <section className="milestones-section">
         <div className="shell">
           <div className="section-kicker">KEY MILESTONES</div>
-          <div className="milestones-heading"><h2>{tr("关键节点", "Milestones")}</h2><p>{tr("从研究出发，在长期实践中构建完整的量化投资能力。", "Building a complete quantitative investment capability through long-term research and practice.")}</p></div>
+          <div className="milestones-heading"><h2>{tr("关键节点", "Milestones")}</h2><p>{tr("从研究出发，在长期实践中构建完整的量化投资能力。", "Scientific rigor — not intuition — is the most reliable way to find alpha in China's fast-evolving A-share market.")}</p></div>
           <div className="timeline">
-            {milestones.map((item) => (
-              <article key={item.year} className="timeline-item">
-                <div className="timeline-year">{item.year}</div><i aria-hidden="true" />
+            {milestones.filter((item) => lang === "zh" || !item.enHidden).map((item) => (
+              <article key={item.title.zh} className="timeline-item">
+                <div className="timeline-year">{pick(lang, item.year)}</div><i aria-hidden="true" />
                 <h3>{pick(lang, item.title)}</h3><p>{pick(lang, item.description)}</p>
               </article>
             ))}
