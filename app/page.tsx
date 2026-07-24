@@ -75,7 +75,7 @@ const productItems = [
     title: { zh: "量化指数增强", en: "Quantitative Index Enhancement" },
     description: {
       zh: "在控制相对基准风险的基础上，通过多维度 Alpha 信号与组合优化，力争获取长期超额收益。",
-      en: "Multi-dimensional alpha signals and portfolio optimization seek long-term excess return while managing benchmark-relative risk.",
+      en: "Multi-dimensional alpha signals and portfolio optimization seek long-term alpha while managing benchmark-relative risk.",
     },
     detail: { zh: "覆盖多类主流宽基指数", en: "Major broad-based indices" },
   },
