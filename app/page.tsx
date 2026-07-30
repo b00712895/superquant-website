@@ -421,7 +421,7 @@ export default function Home() {
   };
 
   return (
-    <main>
+    <main className={lang === "en" ? "is-en" : "is-zh"}>
       {!qualified && (
         <div className="investor-gate" role="dialog" aria-modal="true" aria-labelledby="investor-gate-title">
           <div className="gate-card">
